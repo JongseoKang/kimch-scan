@@ -1,0 +1,5 @@
+{
+  "name": "Arbitrage Scanner",
+  "description": "A real-time cryptocurrency dashboard powered by Bithumb API and Gemini AI for market analysis.",
+  "requestFramePermissions": []
+}
