@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from './components/Header';
-import { MarketOverview } from './components/MarketOverview';
 import { CryptoTable } from './components/CryptoTable';
 import { fetchTicker, fetchAssetsStatus } from './services/bithumbService';
 import { fetchBybitTickers } from './services/bybitService';
@@ -114,34 +113,22 @@ const App: React.FC = () => {
     );
   }, [data, searchTerm]);
 
-  // Get top movers for AI analysis
-  const topMovers = useMemo(() => {
-    const sorted = [...data].sort((a, b) => Math.abs(parseFloat(b.chgRate)) - Math.abs(parseFloat(a.chgRate)));
-    return sorted.slice(0, 5);
-  }, [data]);
-
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
       <Header />
       
-      <main className="flex-grow container mx-auto px-4 py-8 space-y-8">
-        {/* AI Analysis Section */}
-        <section>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-900">
-              Market Insight
-            </h2>
-            {visitCount !== null && (
-              <div className="flex items-center gap-2 px-3 py-1 bg-white rounded-full border border-gray-200 shadow-sm">
-                <UserGroupIcon className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold text-gray-600">
-                  Total Visits: {visitCount.toLocaleString()}
-                </span>
-              </div>
-            )}
-          </div>
-          <MarketOverview topMovers={topMovers} loading={loading} />
-        </section>
+      <main className="flex-grow container mx-auto px-4 py-8 space-y-6">
+        {/* Visitor Count Bar */}
+        <div className="flex justify-end">
+          {visitCount !== null && (
+            <div className="flex items-center gap-2 px-3 py-1 bg-white rounded-full border border-gray-200 shadow-sm">
+              <UserGroupIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-xs font-bold text-gray-600">
+                Total Visits: {visitCount.toLocaleString()}
+              </span>
+            </div>
+          )}
+        </div>
 
         {/* Main Data Section */}
         <section className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
@@ -205,7 +192,7 @@ const App: React.FC = () => {
       <footer className="border-t border-gray-200 py-6 bg-white">
         <div className="container mx-auto px-4 flex justify-center text-center">
           <p className="text-gray-500 text-sm">
-            © 2024 Arbitrage Scanner. Powered by Bithumb & Bybit Public API & Google Gemini.
+            © 2024 Arbitrage Scanner. Powered by Bithumb & Bybit Public API.
           </p>
         </div>
       </footer>
