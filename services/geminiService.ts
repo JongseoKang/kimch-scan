@@ -1,12 +1,16 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { CryptoItem } from "../types";
 
 // Note: In a real app, never expose API keys on the client side.
 // This is for demonstration purposes as per instructions.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateMarketAnalysis = async (topMovers: CryptoItem[]): Promise<string> => {
-  if (!process.env.API_KEY) {
+  // API Key 확인 (Vite define에 의해 문자열로 치환됨)
+  const apiKey = process.env.API_KEY;
+
+  if (!apiKey) {
+    console.warn("API Key is missing");
     return "API Key가 설정되지 않아 AI 분석을 사용할 수 없습니다.";
   }
 
@@ -29,6 +33,9 @@ export const generateMarketAnalysis = async (topMovers: CryptoItem[]): Promise<s
   `;
 
   try {
+    // 인스턴스를 함수 호출 시점에 생성 (Lazy Initialization)
+    const ai = new GoogleGenAI({ apiKey: apiKey });
+    
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
